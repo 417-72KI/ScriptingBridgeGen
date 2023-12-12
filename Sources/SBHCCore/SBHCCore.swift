@@ -5,7 +5,8 @@ public final class SBHCCore {
 }
 
 public extension SBHCCore {
-    func execute(_ filePath: String) async throws {
-        print(URL(filePath: filePath))
+    @discardableResult
+    func execute(_ filePath: String) async throws -> URL {
+        URL(filePath: filePath)
     }
 }

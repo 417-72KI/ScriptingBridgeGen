@@ -6,6 +6,7 @@ let package = Package(
     name: "SwiftScripting",
     platforms: [.macOS(.v13), .iOS("999999"), .watchOS("999999"), .tvOS("999999"), .driverKit("999999")],
     products: [
+        .executable(name: "sbgen", targets: ["SBGen"]),
         .executable(name: "sbhc", targets: ["SBHC"]),
         .executable(name: "sbsc", targets: ["SBSC"]),
     ],
@@ -15,6 +16,14 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-syntax.git", from: "509.0.0"),
     ],
     targets: [
+        .executableTarget(
+            name: "SBGen",
+            dependencies: [
+                "SBHCCore",
+                "SBSCCore",
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+            ]
+        ),
         .executableTarget(
             name: "SBHC",
             dependencies: [
