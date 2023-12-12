@@ -7,6 +7,9 @@ import ArgumentParser
 struct SBGenerator: AsyncParsableCommand {
     @Argument(help: "An application to create `ScriptingBridge` files")
     var applicationPath: String
+
+    @Option(name: .shortAndLong, help: "A directory to save output files.")
+    var outputDirectory: String?
 }
 
 extension SBGenerator {
@@ -38,5 +41,6 @@ extension SBGenerator {
             return files
         }
         print(outputFiles)
+        print(outputDirectory ?? FileManager.default.currentDirectoryPath)
     }
 }
