@@ -7,7 +7,7 @@ public final class SBHCCore {
 public extension SBHCCore {
     @discardableResult
     func execute(_ filePath: String) async throws -> URL {
-        let processor = SBHeaderProcessor(headerFileUrl: URL(filePath: filePath))
+        let processor = try SBHeaderProcessor(headerFileUrl: URL(filePath: filePath))
         try processor.emitSwift()
         let swiftFileURL = URL(filePath: filePath)
             .deletingPathExtension()
