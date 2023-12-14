@@ -10,7 +10,7 @@ let typeDic: [String: String] = [
     "NSArray": "[Any]",
     "NSData": "Data",
     "NSDate": "Date",
-    "NSDictionary": "[AnyHashable : Any]",
+    "NSDictionary": "[AnyHashable: Any]",
     "NSInteger": "Int",
     "NSString": "String",
     "NSURL": "URL",

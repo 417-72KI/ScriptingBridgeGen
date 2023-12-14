@@ -32,9 +32,6 @@ final class HeaderFormat: BasicFormat {
                 if parent.is(EnumDeclSyntax.self) {
                     return true
                 }
-                if parent.is(DictionaryTypeSyntax.self) {
-                    return false
-                }
                 // print(parent)
                 // print(parent.kind)
             }
