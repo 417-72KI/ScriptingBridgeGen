@@ -10,6 +10,12 @@ struct SBGenerator: AsyncParsableCommand {
 
     @Option(name: .shortAndLong, help: "A directory to save output files.")
     var outputDirectory: String?
+
+    @Flag(name: [.long, .customShort("S")], help: "Not output `.sdef` file.")
+    var discardSdefFile = false
+
+    @Flag(name: [.long, .customShort("O")], help: "Not output `.h` file.")
+    var discardObjcHeaderFile = false
 }
 
 extension SBGenerator {
@@ -27,7 +33,7 @@ extension SBGenerator {
         let objcHeaderFile = try ScriptingDefinitionProcessor.run(sdefFileURL: sdefFile)
         print("\(objcHeaderFile) created.")
         
-        let outputFiles = try await withThrowingTaskGroup(of: URL.self) { group in
+        var outputFiles = try await withThrowingTaskGroup(of: URL.self) { group in
             group.addTask {
                 try await SBHCCore().execute(objcHeaderFile.path())
             }
@@ -40,11 +46,21 @@ extension SBGenerator {
             }
             return files
         }
+        if !discardSdefFile {
+            outputFiles.append(sdefFile)
+        }
+        if !discardObjcHeaderFile {
+            outputFiles.append(objcHeaderFile)
+        }
         let fm = FileManager.default
         let outputDirectory = URL(filePath: outputDirectory ?? fm.currentDirectoryPath)
         try outputFiles.forEach {
             let fileName = $0.lastPathComponent
-            try fm.moveItem(at: $0, to: outputDirectory.appending(path: fileName))
+            let outputFile = outputDirectory.appending(path: fileName)
+            if fm.fileExists(atPath: outputFile.path()) {
+                try fm.removeItem(at: outputFile)
+            }
+            try fm.moveItem(at: $0, to: outputFile)
         }
     }
 }
