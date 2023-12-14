@@ -54,6 +54,14 @@ extension SBGenerator {
         }
         let fm = FileManager.default
         let outputDirectory = URL(filePath: outputDirectory ?? fm.currentDirectoryPath)
+        var isDirectory: ObjCBool = false
+        if fm.fileExists(atPath: outputDirectory.path(), isDirectory: &isDirectory) {
+            guard isDirectory.boolValue else {
+                throw SBGeneratorError.notDirectory(outputDirectory)
+            }
+        } else {
+            try fm.createDirectory(at: outputDirectory, withIntermediateDirectories: true)
+        }
         try outputFiles.forEach {
             let fileName = $0.lastPathComponent
             let outputFile = outputDirectory.appending(path: fileName)
