@@ -32,8 +32,6 @@ final class HeaderFormat: BasicFormat {
                 if parent.is(EnumDeclSyntax.self) {
                     return true
                 }
-                // print(parent)
-                // print(parent.kind)
             }
         }
         return super.requiresWhitespace(between: first, and: second)

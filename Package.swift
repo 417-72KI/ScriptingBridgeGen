@@ -14,7 +14,6 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
         .package(url: "https://github.com/apple/swift-syntax.git", from: "509.0.0"),
         .package(url: "https://github.com/llvm-swift/ClangSwift", branch: "master"),
-        .package(url: "https://github.com/scinfu/SwiftSoup", from: "2.6.1"),
     ],
     targets: [
         .executableTarget(
@@ -43,6 +42,7 @@ let package = Package(
         .target(
             name: "SBHCCore",
             dependencies: [
+                "Util",
                 .product(name: "Clang", package: "ClangSwift"),
                 .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
             ],
@@ -65,14 +65,20 @@ let package = Package(
         .target(
             name: "SBSCCore",
             dependencies: [
+                "Util",
                 .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
-                "SwiftSoup",
             ],
             swiftSettings: [
                 .enableExperimentalFeature("AccessLevelOnImport"),
                 .enableUpcomingFeature("InternalImportsByDefault"),
             ]
         ),
-
+        .target(
+            name: "Util",
+            swiftSettings: [
+                .enableExperimentalFeature("AccessLevelOnImport"),
+                .enableUpcomingFeature("InternalImportsByDefault"),
+            ]
+        ),
     ]
 )

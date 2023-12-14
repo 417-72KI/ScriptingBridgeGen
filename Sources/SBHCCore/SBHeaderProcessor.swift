@@ -3,6 +3,7 @@ import Clang
 import SwiftSyntax
 import SwiftSyntaxBuilder
 import SwiftParser
+import Util
 
 final class SBHeaderProcessor {
     private let headerFileUrl: URL
@@ -203,24 +204,6 @@ private extension SBHeaderProcessor {
                 memberBlock: .init(members: .init(caseSyntaxList))
             )
             try emitSyntax(syntax)
-        }
-        func enumCase(_ objcEnumCase: String, prefix: String) throws -> String {
-            let strippedCase = objcEnumCase.trimmingPrefix(prefix)
-            let allCapsRe = #/^([A-Z]+)($)/#
-            let singleCapRe = #/^([A-Z])([^A-Z]+.*)/#
-            let multipleCapsRe = #/^([A-Z]+)([A-Z]([^0-9]+.*))/#
-            let capsToDigitRe = #/^([A-Z]+)([0-9]+.*)/#
-            return if let match = strippedCase.firstMatch(of: allCapsRe) {
-                match.output.1.lowercased() + match.output.2
-            } else if let match = strippedCase.firstMatch(of: singleCapRe) {
-                match.output.1.lowercased() + match.output.2
-            } else if let match = strippedCase.firstMatch(of: capsToDigitRe) {
-                match.output.1.lowercased() + match.output.2
-            } else if let match = strippedCase.firstMatch(of: multipleCapsRe) {
-                match.output.1.lowercased() + match.output.2
-            } else {
-                String(strippedCase)
-            }
         }
         try cursors.forEach(emitEnum(_:))
     }
