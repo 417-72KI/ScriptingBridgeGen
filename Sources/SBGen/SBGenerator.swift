@@ -40,7 +40,11 @@ extension SBGenerator {
             }
             return files
         }
-        print(outputFiles)
-        print(outputDirectory ?? FileManager.default.currentDirectoryPath)
+        let fm = FileManager.default
+        let outputDirectory = URL(filePath: outputDirectory ?? fm.currentDirectoryPath)
+        try outputFiles.forEach {
+            let fileName = $0.lastPathComponent
+            try fm.moveItem(at: $0, to: outputDirectory.appending(path: fileName))
+        }
     }
 }
