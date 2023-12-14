@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "SwiftScripting",
+    name: "ScriptingBridgeGen",
     platforms: [.macOS(.v13), .iOS("999999"), .watchOS("999999"), .tvOS("999999"), .driverKit("999999")],
     products: [
         .executable(name: "sbgen", targets: ["SBGen"]),
