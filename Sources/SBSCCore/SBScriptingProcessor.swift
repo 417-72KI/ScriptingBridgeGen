@@ -60,6 +60,7 @@ private extension SBScriptingProcessor {
             ]
             let stdout = Pipe()
             process.standardOutput = stdout
+            process.standardError = Pipe()
             try process.run()
             process.waitUntilExit()
             guard let data = try stdout.fileHandleForReading.readToEnd() else { return nil }
