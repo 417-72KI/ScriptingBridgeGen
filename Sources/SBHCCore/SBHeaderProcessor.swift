@@ -2,6 +2,7 @@ import Foundation
 import Clang
 import SwiftSyntax
 import SwiftSyntaxBuilder
+import SwiftParser
 
 final class SBHeaderProcessor {
     private let headerFileUrl: URL
@@ -171,7 +172,7 @@ private extension SBHeaderProcessor {
                     return EnumCaseDeclSyntax {
                         EnumCaseElementSyntax(
                             leadingTrivia: .space,
-                            name: .identifier(convertedCase)
+                            name: safeName(convertedCase)
                                 .with(\.trailingTrivia, .space),
                             rawValue: InitializerClauseSyntax(
                                 equal: .equalToken(trailingTrivia: .space),
@@ -294,7 +295,7 @@ private extension SBHeaderProcessor {
                         bindingsBuilder: {
                             PatternBindingSyntax(
                                 pattern: IdentifierPatternSyntax(
-                                    identifier: .identifier(propertyName)
+                                    identifier: safeName(propertyName)
                                 ),
                                 typeAnnotation: TypeAnnotationSyntax(
                                     type: TypeSyntax(stringLiteral: swiftType)
@@ -332,7 +333,7 @@ private extension SBHeaderProcessor {
                     modifiers: DeclModifierListSyntax {
                         DeclModifierSyntax(name: .keyword(.optional))
                     },
-                    name: TokenSyntax(stringLiteral: functionName),
+                    name: safeName(functionName),
                     signature: FunctionSignatureSyntax(
                         parameterClause: FunctionParameterClauseSyntax {
                             for (position, param) in params.enumerated() {
@@ -429,6 +430,16 @@ private extension SBHeaderProcessor {
     func emitLine(_ line: String = "") throws {
         output += line + "\n"
     }
+}
+
+// MARK: -
+private func safeName(_ string: String) -> TokenSyntax {
+    if let token = Parser.parse(source: string)
+        .token(at: .init(utf8Offset: 0)),
+       case .keyword = token.tokenKind {
+        return TokenSyntax(stringLiteral: "`\(string)`")
+    }
+    return TokenSyntax(stringLiteral: string)
 }
 
 // MARK: -

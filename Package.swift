@@ -23,6 +23,10 @@ let package = Package(
                 "SBHCCore",
                 "SBSCCore",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
+            ],
+            swiftSettings: [
+                .enableExperimentalFeature("AccessLevelOnImport"),
+                .enableUpcomingFeature("InternalImportsByDefault"),
             ]
         ),
         .executableTarget(
@@ -30,6 +34,10 @@ let package = Package(
             dependencies: [
                 "SBHCCore",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
+            ],
+            swiftSettings: [
+                .enableExperimentalFeature("AccessLevelOnImport"),
+                .enableUpcomingFeature("InternalImportsByDefault"),
             ]
         ),
         .target(
@@ -37,6 +45,10 @@ let package = Package(
             dependencies: [
                 .product(name: "Clang", package: "ClangSwift"),
                 .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
+            ],
+            swiftSettings: [
+                .enableUpcomingFeature("InternalImportsByDefault"),
+                .enableExperimentalFeature("AccessLevelOnImport"),
             ]
         ),
         .executableTarget(
@@ -44,6 +56,10 @@ let package = Package(
             dependencies: [
                 "SBSCCore",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
+            ],
+            swiftSettings: [
+                .enableExperimentalFeature("AccessLevelOnImport"),
+                .enableUpcomingFeature("InternalImportsByDefault"),
             ]
         ),
         .target(
@@ -51,6 +67,10 @@ let package = Package(
             dependencies: [
                 .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
                 "SwiftSoup",
+            ],
+            swiftSettings: [
+                .enableExperimentalFeature("AccessLevelOnImport"),
+                .enableUpcomingFeature("InternalImportsByDefault"),
             ]
         ),
 
