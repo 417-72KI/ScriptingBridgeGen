@@ -1,0 +1,6 @@
+.build
+.idea
+.swiftpm
+.DS_Store
+build/
+*.pbxuser
