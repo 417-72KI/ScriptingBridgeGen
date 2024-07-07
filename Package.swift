@@ -22,10 +22,6 @@ let package = Package(
                 "SBHCCore",
                 "SBSCCore",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-            ],
-            swiftSettings: [
-                .enableExperimentalFeature("AccessLevelOnImport"),
-                .enableUpcomingFeature("InternalImportsByDefault"),
             ]
         ),
         .executableTarget(
@@ -33,10 +29,6 @@ let package = Package(
             dependencies: [
                 "SBHCCore",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-            ],
-            swiftSettings: [
-                .enableExperimentalFeature("AccessLevelOnImport"),
-                .enableUpcomingFeature("InternalImportsByDefault"),
             ]
         ),
         .target(
@@ -45,10 +37,6 @@ let package = Package(
                 "Util",
                 .product(name: "Clang", package: "ClangSwift"),
                 .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
-            ],
-            swiftSettings: [
-                .enableUpcomingFeature("InternalImportsByDefault"),
-                .enableExperimentalFeature("AccessLevelOnImport"),
             ]
         ),
         .executableTarget(
@@ -56,10 +44,6 @@ let package = Package(
             dependencies: [
                 "SBSCCore",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-            ],
-            swiftSettings: [
-                .enableExperimentalFeature("AccessLevelOnImport"),
-                .enableUpcomingFeature("InternalImportsByDefault"),
             ]
         ),
         .target(
@@ -67,18 +51,16 @@ let package = Package(
             dependencies: [
                 "Util",
                 .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
-            ],
-            swiftSettings: [
-                .enableExperimentalFeature("AccessLevelOnImport"),
-                .enableUpcomingFeature("InternalImportsByDefault"),
             ]
         ),
-        .target(
-            name: "Util",
-            swiftSettings: [
-                .enableExperimentalFeature("AccessLevelOnImport"),
-                .enableUpcomingFeature("InternalImportsByDefault"),
-            ]
-        ),
+        .target(name: "Util"),
     ]
 )
+
+// MARK: -
+package.targets.forEach {
+    $0.swiftSettings = [
+        .enableExperimentalFeature("AccessLevelOnImport"),
+        .enableUpcomingFeature("InternalImportsByDefault"),
+    ]
+}
