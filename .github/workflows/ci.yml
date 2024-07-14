@@ -44,19 +44,19 @@ jobs:
             ${{ runner.os }}-${{ github.job }}-${{ matrix.xcode_version }}-
             ${{ runner.os }}-${{ github.job }}-
             ${{ runner.os }}-
-      - name: Cache Homebrew modules
-        uses: actions/cache@v4
-        env:
-          cache-name: brew
-        with:
-          path: |
-            ~/Library/Caches/Homebrew/downloads
-          key: ${{ runner.os }}-${{ github.job }}-${{ matrix.xcode_version }}-${{ env.cache-name }}-${{ hashFiles('**/Package.swift') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ github.job }}-${{ matrix.xcode_version }}-${{ env.cache-name }}-
-            ${{ runner.os }}-${{ github.job }}-${{ matrix.xcode_version }}-
-            ${{ runner.os }}-${{ github.job }}-
-            ${{ runner.os }}-
+    #   - name: Cache Homebrew modules
+    #     uses: actions/cache@v4
+    #     env:
+    #       cache-name: brew
+    #     with:
+    #       path: |
+    #         ~/Library/Caches/Homebrew/downloads
+    #       key: ${{ runner.os }}-${{ github.job }}-${{ matrix.xcode_version }}-${{ env.cache-name }}-${{ hashFiles('**/Package.swift') }}
+    #       restore-keys: |
+    #         ${{ runner.os }}-${{ github.job }}-${{ matrix.xcode_version }}-${{ env.cache-name }}-
+    #         ${{ runner.os }}-${{ github.job }}-${{ matrix.xcode_version }}-
+    #         ${{ runner.os }}-${{ github.job }}-
+    #         ${{ runner.os }}-
       - name: Disable SwiftLint Plugin
         run: sed -i -e 's/.*SwiftLint.*//g' Package.swift
       - name: Install LLVM
