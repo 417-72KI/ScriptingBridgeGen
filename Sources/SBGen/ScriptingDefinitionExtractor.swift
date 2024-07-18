@@ -6,9 +6,16 @@ enum ScriptingDefinitionExtractor {
         process.executableURL = URL(filePath: "/usr/bin/sdef")
         process.arguments = [applicationURL.path()]
         let stdout = Pipe()
+        let stderr = Pipe()
         process.standardOutput = stdout
+        process.standardError = stderr
         try process.run()
         process.waitUntilExit()
+        guard process.terminationStatus == 0 else {
+            let message = try stderr.fileHandleForReading.readToEnd()
+                .flatMap { String(decoding: $0, as: UTF8.self).trimmingCharacters(in: .whitespacesAndNewlines) }
+            throw SBGeneratorError.sdefFailed(message ?? "")
+        }
         let sdef = try stdout.fileHandleForReading.readToEnd()
         let sdefFileName = applicationURL.deletingPathExtension().lastPathComponent
             .appending(".sdef")
