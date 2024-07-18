@@ -2,6 +2,8 @@
 
 import PackageDescription
 
+let isDevelop = true
+
 let package = Package(
     name: "ScriptingBridgeGen",
     platforms: [.macOS(.v13), .iOS("999999"), .watchOS("999999"), .tvOS("999999"), .driverKit("999999")],
@@ -73,4 +75,16 @@ package.targets.forEach {
         .enableExperimentalFeature("AccessLevelOnImport"),
         .enableUpcomingFeature("InternalImportsByDefault"),
     ]
+}
+
+// MARK: - Develop
+if isDevelop {
+    package.dependencies.append(contentsOf: [
+        .package(url: "https://github.com/realm/SwiftLint.git", from: "0.55.1"),
+    ])
+    package.targets.forEach {
+        $0.dependencies.append(contentsOf: [
+            .product(name: "SwiftLintBuildToolPlugin", package: "SwiftLint"),
+        ])
+    }
 }
