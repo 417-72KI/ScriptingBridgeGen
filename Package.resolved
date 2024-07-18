@@ -1,4 +1,5 @@
 {
+  "originHash" : "c483f3216dc774fbab29a9ed7a3fa41520f41face9ed58b798f83b15d8739961",
   "pins" : [
     {
       "identity" : "clangswift",
@@ -23,10 +24,10 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-syntax.git",
       "state" : {
-        "revision" : "6ad4ea24b01559dde0773e3d091f1b9e36175036",
-        "version" : "509.0.2"
+        "revision" : "303e5c5c36d6a558407d364878df131c3546fad8",
+        "version" : "510.0.2"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
