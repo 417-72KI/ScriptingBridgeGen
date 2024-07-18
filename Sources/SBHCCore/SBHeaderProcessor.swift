@@ -68,16 +68,11 @@ extension SBHeaderProcessor {
 private extension SBHeaderProcessor {
     var xcodePath: String {
         get throws {
-            let process = Process()
-            process.executableURL = URL(filePath: "/usr/bin/xcode-select")
-            process.arguments = ["-p"]
-            let stdout = Pipe()
-            process.standardOutput = stdout
-            try process.run()
-            process.waitUntilExit()
-            return try stdout.fileHandleForReading
-                .readToEnd()
-                .flatMap { String(data: $0, encoding: .utf8) } ?? ""
+            try ShellExecutor.execute(
+                path: "/usr/bin/xcode-select",
+                arguments: ["-p"]
+            )
+            .flatMap { String(decoding: $0, as: UTF8.self) } ?? ""
         }
     }
 

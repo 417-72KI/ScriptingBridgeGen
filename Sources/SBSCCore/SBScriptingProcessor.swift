@@ -51,20 +51,15 @@ extension SBScriptingProcessor {
 private extension SBScriptingProcessor {
     func extractCases(xpath: String, keyword: String) throws -> Set<String> {
         func xmllint(xpath: String, filePath: String) throws -> String? {
-            let process = Process()
-            process.executableURL = URL(filePath: "/usr/bin/xmllint")
-            process.arguments = [
-                "--xpath",
-                xpath,
-                filePath
-            ]
-            let stdout = Pipe()
-            process.standardOutput = stdout
-            process.standardError = Pipe()
-            try process.run()
-            process.waitUntilExit()
-            guard let data = try stdout.fileHandleForReading.readToEnd() else { return nil }
-            return String(data: data, encoding: .utf8)
+            try ShellExecutor.execute(
+                path: "/usr/bin/xmllint",
+                arguments: [
+                    "--xpath",
+                    xpath,
+                    filePath
+                ]
+            )
+            .flatMap { String(decoding: $0, as: UTF8.self) }
         }
         guard let result = try xmllint(
             xpath: xpath,
