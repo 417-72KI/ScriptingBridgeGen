@@ -54,6 +54,16 @@ let package = Package(
             ]
         ),
         .target(name: "Util"),
+        .testTarget(
+            name: "SBHCCoreTests",
+            dependencies: ["SBHCCore"],
+            resources: [.copy("Resources")]
+        ),
+        .testTarget(
+            name: "SBSCCoreTests",
+            dependencies: ["SBSCCore"],
+            resources: [.copy("Resources")]
+        ),
     ]
 )
 
