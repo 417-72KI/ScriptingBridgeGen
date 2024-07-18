@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 5.10
 
 import PackageDescription
 
@@ -12,7 +12,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
-        .package(url: "https://github.com/apple/swift-syntax.git", from: "509.0.0"),
+        .package(url: "https://github.com/apple/swift-syntax.git", from: "510.0.0"),
         .package(url: "https://github.com/llvm-swift/ClangSwift", branch: "master"),
     ],
     targets: [
