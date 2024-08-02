@@ -31,7 +31,7 @@ extension SBScriptingProcessor {
             }
         ) {
             for name in names {
-                let enumCaseBase = name.replacingOccurrences(of: #"""#, with: "")
+                let enumCaseBase = name.replacingOccurrences(of: "\"", with: "")
                     .replacingOccurrences(of: "-", with: " ")
                     .split(separator: " ")
                     .map(\.capitalized)
@@ -51,15 +51,20 @@ extension SBScriptingProcessor {
 private extension SBScriptingProcessor {
     func extractCases(xpath: String, keyword: String) throws -> Set<String> {
         func xmllint(xpath: String, filePath: String) throws -> String? {
-            try ShellExecutor.execute(
-                path: "/usr/bin/xmllint",
-                arguments: [
-                    "--xpath",
-                    xpath,
-                    filePath
-                ]
-            )
-            .flatMap { String(decoding: $0, as: UTF8.self) }
+            do {
+                return try ShellExecutor.execute(
+                    path: "/usr/bin/xmllint",
+                    arguments: [
+                        "--xpath",
+                        xpath,
+                        filePath
+                    ]
+                )
+                .flatMap { String(decoding: $0, as: UTF8.self) }
+            } catch let error as ShellExecutor.Error where error.output == "XPath set is empty" {
+                // no elements
+                return nil
+            }
         }
         guard let result = try xmllint(
             xpath: xpath,
