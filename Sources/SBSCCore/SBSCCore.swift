@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 public final class SBSCCore {
     public init() {}
