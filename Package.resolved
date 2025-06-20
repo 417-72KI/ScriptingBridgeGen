@@ -1,13 +1,13 @@
 {
-  "originHash" : "c483f3216dc774fbab29a9ed7a3fa41520f41face9ed58b798f83b15d8739961",
+  "originHash" : "42c540e78809b4dfa55e342defd5c41e7c267bbf8a720621ff46a9ac754d0e9d",
   "pins" : [
     {
       "identity" : "clangswift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/llvm-swift/ClangSwift",
+      "location" : "https://github.com/417-72KI/ClangSwift",
       "state" : {
         "branch" : "master",
-        "revision" : "c540bea54b3d92ebd2df4ad96141d7dbce5307b6"
+        "revision" : "2a2d8c94f80dc26bf69636092c962abe3f71dee4"
       }
     },
     {
