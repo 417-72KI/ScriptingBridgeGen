@@ -76,3 +76,24 @@ jobs:
         with:
           path: .build/debug/sbgen
           name: sbgen-${{ github.sha }}-xcode-${{ matrix.xcode_version }}
+  run-binary:
+    name: Run Binary
+    needs: [generate-matrix, test]
+    runs-on: macOS-14
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode_version }}.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: sbgen-${{ github.sha }}-xcode-${{ matrix.xcode_version }}
+      - name: Run sbgen
+        run: |
+          mv .build/debug/sbgen ./sbgen
+          ./sbgen --help
+          ./sbgen /System/Applications/Music.app
+          ls -l
